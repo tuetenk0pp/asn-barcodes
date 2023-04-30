@@ -24,10 +24,11 @@ def check_positive(value):
     return value
 
 parser = argparse.ArgumentParser(prog="asn-barcodes.py", description="This tool can be used to generate ASN Barcodes for paperless-ngx.")
-parser.add_argument('--version', action='version', version='%(prog)s 1.0')
-parser.add_argument("position", help="Number of the first ASN-Barcode to generate", metavar="POSITION", type=check_positive)
-parser.add_argument("count", help="Number of ASN-Barcodes to generate", metavar="COUNT", type=check_positive)
-parser.add_argument("-o", "--output", default="asn-barcodes", dest="output", help="Destination file name", metavar="")
+parser.add_argument("--version", action="version", version="%(prog)s 1.0")
+parser.add_argument("position", help="number of the first ASN-barcode to generate", metavar="POSITION", type=check_positive)
+parser.add_argument("count", help="number of ASN-barcodes to generate", metavar="COUNT", type=check_positive)
+parser.add_argument("--prefix", default="ASN", dest="prefix", help="ASN Prefix", metavar=None)
+parser.add_argument("--output", default="asn-barcodes", dest="output", help="destination file name", metavar=None)
 args = parser.parse_args()
 
 start = int(args.position)
@@ -36,7 +37,7 @@ end = int(args.position) + int(args.count)
 # Generate barcodes
 barcodes = []
 for i in range(start, end):
-    barcode_value = 'ASN' + str(i).zfill(4)
+    barcode_value = args.prefix + str(i).zfill(4)
     barcode_image = Code128(barcode_value, writer=barcode.writer.ImageWriter()).render()
     barcodes.append((barcode_value, barcode_image))
 
@@ -61,7 +62,7 @@ for i, (barcode_value, barcode_image) in enumerate(barcodes):
         y = height - page_bottom_margin
     # Convert barcode image to BytesIO object
     barcode_image_file = BytesIO()
-    barcode_image.save(barcode_image_file, format='PNG')
+    barcode_image.save(barcode_image_file, format="PNG")
     barcode_image_file.seek(0)
     # Draw barcode image on label
     img = ImageReader(barcode_image_file)
