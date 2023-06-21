@@ -45,11 +45,11 @@ for i in range(start, end):
 pdf_file = args.output + ".pdf"
 c = canvas.Canvas(pdf_file, pagesize=A4)
 width, height = A4
-page_left_margin = 16.1 * mm
+page_left_margin = 7.75 * mm
 page_bottom_margin = 13.5 * mm
 label_width = 25.4 * mm
 label_height = 10 * mm
-horizontal_gap = 0.25 * mm
+horizontal_gap = 2.5 * mm
 vertical_gap = 0 * mm
 rows = 27
 columns = 7
